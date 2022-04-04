@@ -1,0 +1,17 @@
+@import "~/src/Shared/styles/theme";
+
+.user {
+    margin: 1rem 0;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.signout {
+    padding: 8px;
+    background-color: $color_lightgrey;
+}
+
+.signout:hover,
+.signout:focus {
+    background-color: $color_grey;
+}

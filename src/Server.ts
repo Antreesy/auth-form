@@ -1,37 +1,41 @@
 import { IDataGetDto, IDataPostDto } from "./Interfaces/IContactsDto";
+import { IUserData } from "./Interfaces/IUserData";
+import Utils from "./Methods/Utils";
 
 class Server {
   public authAddress = `http://localhost:8000/auth/`
 
-  public dataAddress = `http://localhost:8000/data/`
-
-  public isUserAuthorized = async(username: string, password: string) => {
-    const address = this.authAddress + ('?login=' + username || '');
+  public authenticateUser = async(login: string, password: string): Promise<string> =>  {
+    const address = this.authAddress + '?login=' + login;
 
     const response = await fetch(address, {
       method: "GET",
       headers: {"Content-Type": "application/json"}
     });
-    const data = await response.json();
+    const [data]: IUserData[] = await response.json();
 
-    return (data[0].password === password);
+    return (data.password === password) ? data.auth_token : '';
   }
 
-  public async getFromServer(search?: string): Promise<IDataGetDto[]> {
-    const searchRequest = (search) ? `?q=${search}`: '';
-    const address = this.dataAddress + searchRequest;
+  public authorizeUser  = async(auth_token: string): Promise<boolean> =>  {
+    const address = this.authAddress + '?auth_token=' + auth_token;
 
     const response = await fetch(address, {
       method: "GET",
       headers: {"Content-Type": "application/json"}
     });
-    const data = await response.json();
+    const [data]: IUserData[] = await response.json();
 
-    return data;
+    return !!data;
   }
+
+
+
+
+
 
   public async getFromServerById(id: string): Promise<IDataGetDto> {
-    const address = this.dataAddress + (id || '');
+    const address = this.authAddress + (id || '');
 
     const response = await fetch(address, {
       method: "GET",
@@ -40,35 +44,30 @@ class Server {
     const data = await response.json();
 
     return data;
-  }
-
-  public deleteFromServer(id: string) {
-    const address = this.dataAddress + id;
-  
-    fetch(address, {
-      method: "DELETE",
-      headers: {"Content-Type": "application/json"}
-    });
   }
 
   public postToServer(id: string, userInfo: IDataPostDto) {
-    const address = this.dataAddress;
+    const address = this.authAddress;
   
     fetch(address, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({id:id, ...userInfo})
     });
+
+    console.log("post data")
   }
 
   public patchToServer(id: string, userInfo: IDataPostDto) {
-    const address = this.dataAddress + id;
+    const address = this.authAddress + id;
   
     fetch(address, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(userInfo)
     });
+
+    console.log("patch data")
   }
 }
 

@@ -15,4 +15,8 @@ export default class Utils {
     for (const prop in validField) validField[prop] = validField[prop] ? true : false;
     return [validField, false];
   }
+
+  public static generateToken() {
+    return Math.random().toString(36).substring(2);
+  }
 }

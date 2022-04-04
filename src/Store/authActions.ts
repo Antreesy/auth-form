@@ -1,0 +1,4 @@
+const GET_TOKEN = 'GET_TOKEN';
+const ERASE_TOKEN = 'ERASE_TOKEN';
+
+export {GET_TOKEN, ERASE_TOKEN}

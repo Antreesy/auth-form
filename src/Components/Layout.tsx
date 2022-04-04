@@ -1,14 +1,17 @@
 import * as React from "react";
-import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
 
-const Layout = () => {
-    return (
-      <div>
-        <Header />
-        <Outlet />
-      </div>
-    );
-  }
+interface IProps {
+  children?: JSX.Element;
+}
 
-  export default Layout
+const Layout = (props: IProps) => {
+  return (
+    <div>
+      <Header />
+      {props.children}
+    </div>
+  );
+}
+
+export {Layout}

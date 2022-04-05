@@ -1,4 +1,4 @@
-@import "~/src/Shared/styles/theme";
+@import "~/src/styles/theme";
 
 .container {
   width: 120px;
@@ -27,10 +27,10 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: $color_lightgrey;
+  background: $color_lightgreen;
   width: 100%;
   border: 0;
-  padding: 15px;
+  padding: 12px 8px;
   color: $color_black;
   font-size: 14px;
   -webkit-transition: all 0.3 ease;
@@ -38,5 +38,5 @@
   cursor: pointer;
 }
 .button:hover,.button:active,.button:focus {
-  background: $color_grey;
+  background: $color_darkgreen;
 }

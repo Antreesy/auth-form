@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Validation from '../../Methods/Validation';
+import Validation from '../../helpers/Validation';
 
 import c from './textinput.module.scss';
 
@@ -40,7 +40,11 @@ const TextInput = (props: IProps) => {
           value={value}
           onChange={handleChange}
         />
-        {type === 'password' && <div className={c.seePassword} onClick={handleType}></div>}
+        {type === 'password' && 
+        <div
+          className={`${c.seePassword} ${inputType === 'password' ? c.hidden : c.visible}`}
+          onClick={handleType}
+        />}
       </div>
 
   </label>

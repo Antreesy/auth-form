@@ -35,6 +35,24 @@
       "login": "admin2@mail.ru",
       "password": "Admin12345",
       "auth_token": "b2qgl9co51h"
+    },
+    {
+      "id": "p4pifxl4s1",
+      "login": "adminadmin@mail.ru",
+      "password": "Admin12345",
+      "auth_token": "p4pifxl4s1"
+    },
+    {
+      "id": "3npoc3pg4fp",
+      "login": "usernull",
+      "password": "User123",
+      "auth_token": "3npoc3pg4fp"
+    },
+    {
+      "id": "ffoa0grecz6",
+      "login": "admin22@mail.ru",
+      "password": "Admin123",
+      "auth_token": "ffoa0grecz6"
     }
   ]
 }

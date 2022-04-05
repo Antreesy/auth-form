@@ -1,0 +1,21 @@
+@import "~/src/styles/theme";
+
+.message {
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+}
+
+.wrapper {
+    position: fixed;
+    bottom: 10px;
+    left: 5px;
+    right: 5px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 40%;
+    min-width: 400px;
+    background-color: $color_lightgrey;
+    border-radius: 8px;
+}

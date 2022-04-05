@@ -1,4 +1,4 @@
-@import "~/src/Shared/styles/theme";
+@import "~/src/styles/theme";
 
 .header {
     margin: 0 auto;
@@ -20,29 +20,14 @@
     box-shadow: 0px 9.03012px 27.0904px rgba(176, 190, 197, 0.32), 0px 3.38629px 5.64383px rgba(176, 190, 197, 0.32);
 }
 
-.flexwrapper {
-    display: flex;
-    align-items: center;
-}
-
 .caption {
     margin: 1rem 0.5rem;
     font-weight: 700;
     font-size: 32px;
 }
 
-.listItem {
-    padding: 8px;
-    text-align: center;
-    background-color: $color_lightgrey;
-
-    &:hover, &:focus {
-        background-color: $color_grey;
+@media (max-width: 700px) {
+    .container {
+        flex-direction: column;
     }
 }
-
-.listItem a {
-    white-space: nowrap;
-    text-decoration: none;
-}
-

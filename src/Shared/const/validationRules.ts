@@ -1,6 +1,7 @@
 enum ValidationErrors {
   RequiredField = 'Это обязательное поле',
   Email = 'E-mail введён некорректно',
+  Password = 'Пароль должен содержать заглавную букву',
   MinLength = 'Минимальная длина поля',
   MaxLength = 'Максимальная длина поля',
 }
@@ -48,8 +49,21 @@ const rulesArray: IField[] = [
   },
 
   {
-    field: 'fullName',
-    rules: {},
+    field: 'password',
+    rules: {
+      minLength: {
+        value: 4,
+        message: ValidationErrors.MinLength,
+      },
+      maxLength: {
+        value: 10,
+        message: ValidationErrors.MaxLength,
+      },
+      isPassword: {
+        value: true,
+        message: ValidationErrors.Password,
+      },
+    },
   },
 
   {
@@ -61,6 +75,8 @@ const rulesArray: IField[] = [
       },
     },
   },
+
+
 ];
 
 export { rulesArray };

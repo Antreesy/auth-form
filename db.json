@@ -1,14 +1,40 @@
 {
   "auth": [
     {
-      "login": "admin",
+      "id": "q8b9o6xta5e",
+      "login": "admin@mail.ru",
       "password": "Admin123",
       "auth_token": "q8b9o6xta5e"
     },
     {
+      "id": "3439mdxqeoe",
       "login": "user1",
       "password": "User123",
       "auth_token": "3439mdxqeoe"
+    },
+    {
+      "id": "uvna2lse5h",
+      "login": "admin12",
+      "password": "admin123",
+      "auth_token": "uvna2lse5h"
+    },
+    {
+      "id": "mdh6tjvl9q8",
+      "login": "user14",
+      "password": "user123",
+      "auth_token": "mdh6tjvl9q8"
+    },
+    {
+      "id": "726kxyp0ct9",
+      "login": "admin@mail.ru",
+      "password": "Fasd",
+      "auth_token": "726kxyp0ct9"
+    },
+    {
+      "id": "b2qgl9co51h",
+      "login": "admin2@mail.ru",
+      "password": "Admin12345",
+      "auth_token": "b2qgl9co51h"
     }
   ]
 }

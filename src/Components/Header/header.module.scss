@@ -30,3 +30,19 @@
     font-weight: 700;
     font-size: 32px;
 }
+
+.listItem {
+    padding: 8px;
+    text-align: center;
+    background-color: $color_lightgrey;
+
+    &:hover, &:focus {
+        background-color: $color_grey;
+    }
+}
+
+.listItem a {
+    white-space: nowrap;
+    text-decoration: none;
+}
+

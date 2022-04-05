@@ -1,35 +1,31 @@
-import * as React from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
-import AuthStatus from "./AuthStatus/AuthStatus";
+import { Link } from "react-router-dom";
+import { AuthStatus } from "./AuthStatus";
+import { Dropdown } from "../Dropdown";
 
-import { useAuth } from "../../Methods/UseAuth";
+import { RootState } from "../../Store/reducer";
 
 import c from "./header.module.scss"
-import { Dropdown } from "../Dropdown";
-import { Link } from "react-router-dom";
 
 const Header = () => {
-    const auth = useAuth();
+
+    const store = useSelector((state: RootState) => state.auth)
 
     return (
     <header className={c.header}>
         <div className={c.container}>
             <div className={c.flexwrapper}>
-                <h1 className={c.caption}>CiPlay test task</h1>
-                <Dropdown button={<button>dropdown</button>}>
-                    <ul>
-                        <li><Link to='/login'>Login page</Link></li>
-                        <li><Link to='/register'>Register page</Link></li>
-                        <li><Link to='/'>Main page</Link></li>
-                    </ul>
+                <Dropdown>
+                    <li  className={c.listItem}><Link to='/login'>Login page</Link></li>
+                    <li  className={c.listItem}><Link to='/register'>Register page</Link></li>
+                    <li  className={c.listItem}><Link to='/'>Main page</Link></li>
                 </Dropdown>
+                <h1 className={c.caption}>CiPlay test task</h1>
             </div>
 
-            {auth.user && 
-                <>
-                    <AuthStatus />
-                </>
-            }
+            {store.auth_token && <AuthStatus /> }
         </div>
     </header>);
 }

@@ -1,47 +1,126 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useLocation, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { TextInput } from "../../TextInput";
+import { Loader } from "../../Loader";
+
+import Server from "../../../Methods/Server";
+
 import { RootState } from "../../../Store/reducer";
+import { ERASE_TOKEN } from "../../../Store/authActions";
+import { CLEAR_MAINPAGE_FORM, SAVE_MAINPAGE_PASSWORD_NEW, SAVE_MAINPAGE_PASSWORD_OLD, SAVE_MAINPAGE_PASSWORD_REPEAT } from "../../../Store/formActions";
 
 import c from "./mainpage.module.scss"
 
 const MainPage = () => {
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
+  const store = useSelector((state: RootState) => {return {auth: state.auth, form: state.form}})
+  const dispatch = useDispatch();
 
-  const location = useLocation();
-  const store = useSelector((state: RootState) => state.auth)
+  useEffect(()=>{
+    Server.authorizeUser(store.auth.auth_token).then((resolve) => {
+      if (resolve) {
+        dispatch({
+          type: CLEAR_MAINPAGE_FORM
+        })
+        setTimeout(()=> {
+          setIsPending(false);
+        }, 100)
+      }
+      else navigate('/login');
+    })
+  }, [store.auth.auth_token])
 
-  
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const handleClick = () => {}
-  
-  const error = false;
+  const onChangePasswordOld = (value: string) => {
+    dispatch({
+      type: SAVE_MAINPAGE_PASSWORD_OLD,
+      payload: value,
+    }) 
+  }
 
-  if (!store.auth_token) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  const onChangePasswordNew = (value: string) => {
+    dispatch({
+      type: SAVE_MAINPAGE_PASSWORD_NEW,
+      payload: value,
+    }) 
+  }
+
+  const onChangePasswordRepeat = (value: string) => {
+    dispatch({
+      type: SAVE_MAINPAGE_PASSWORD_REPEAT,
+      payload: value,
+    }) 
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    Server.checkCorrectPassword(store.auth.auth_token, store.form.mainPage_password_old).then((resolve) => {
+      if (!resolve) {
+        setError("Старый пароль введен неверно")
+        return;
+      }
+
+      if (store.form.mainPage_password_new !== store.form.mainPage_password_repeat) {
+        setError("Пароли не совпадают")
+        return;
+      }
+
+      Server.changePassword(store.auth.auth_token, store.form.mainPage_password_new);
+      dispatch({
+        type: ERASE_TOKEN,
+      })
+      setError("")
+      navigate('/login');
+    })
   }
 
   return (
   <div className={c.main_page}>
-      <h4 className={c.descr}>Смена пароля</h4>
+      <h3 className={c.caption}>MAIN PAGE</h3>
+      {isPending && <Loader />}
+      { !isPending &&
       <div className={c.form}>
-        <form className={c.login_form}>
-          <label className={c.label}>
-            <span className={c.labeltext}>Старый пароль</span>
-            <input type="password" name="password" placeholder="Old password"/>
-          </label>
-          <label className={c.label}>
-            <span className={c.labeltext}>Новый пароль</span>
-            <input type="password" name="password" placeholder="New password"/>
-          </label>
-          <label className={c.label}>
-            <span className={c.labeltext}>Повторите пароль</span>
-            <input type="password" name="password" placeholder="Repeat password"/>
-          </label>
-          {error && <p className={c.error_caption}>Проверьте введёные данные</p>}
-          <button type="submit">Сменить пароль</button>
+        <h4 className={c.descr}>Смена пароля</h4>
+        <form className={c.login_form} onSubmit={handleSubmit}>
+          <TextInput
+            label="Старый пароль"
+            type="password"
+            placeholder="Old password"
+            value={store.form.mainPage_password_old}
+            onChange={onChangePasswordOld}
+            validateRules={['password']}
+          />
+
+          <TextInput
+            label="Новый пароль"
+            type="password"
+            placeholder="New password"
+            value={store.form.mainPage_password_new}
+            onChange={onChangePasswordNew}
+            validateRules={['password']}
+          />
+
+          <TextInput
+            label="Повторите пароль"
+            type="password"
+            placeholder="Repeat password"
+            value={store.form.mainPage_password_repeat}
+            onChange={onChangePasswordRepeat}
+            validateRules={['password']}
+          />
+
+          {error && <p className={c.error_caption}>{error}</p>}
+          <button className={c.button} type="submit">Сменить пароль</button>
         </form>
       </div>
-    </div> );
+      }
+      
+  </div> 
+  );
 }
 
 export default MainPage;

@@ -6,12 +6,8 @@ import { LoginPage } from "./Components/Pages";
 import { RegisterPage } from "./Components/Pages";
 import { MainPage } from "./Components/Pages";
 
-import AuthProvider from "./Components/AuthProvider";
-
-
 export default function App() {
   return (
-    <AuthProvider>
       <Layout>
         <Routes>
             <Route path="/login" element={<LoginPage />} />
@@ -19,7 +15,6 @@ export default function App() {
             <Route path="/" element={<MainPage />} />
         </Routes>
       </Layout>
-    </AuthProvider>
   );
 }
 

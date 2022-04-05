@@ -1,3 +1,3 @@
 import AuthStatus from "./AuthStatus";
 
-export {AuthStatus}
+export { AuthStatus }

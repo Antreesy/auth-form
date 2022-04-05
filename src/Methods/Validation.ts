@@ -8,7 +8,7 @@ class Validation {
   public isRequired = false;
 
   constructor(fields: string | string[], value: string | number | boolean) {
-    this.validValue = !!value ? value.toString() : '';
+    this.validValue = value ? value.toString() : '';
     this.rule = this.getRules(fields);
 
     try {
@@ -36,6 +36,7 @@ class Validation {
     } catch (e) {
       console.log(e);
     } finally {
+      // eslint-disable-next-line no-unsafe-finally
       return rulesComb;
     }
   }
@@ -47,11 +48,11 @@ class Validation {
     if (this.rule.minLength && !!this.checkMinLength()) return this.checkMinLength().toString();
     if (this.rule.minLength && !!this.checkMaxLength()) return this.checkMaxLength().toString();
     if (this.rule.isEmail && !!this.checkEmail()) return this.checkEmail().toString();
+    if (this.rule.isPassword && !!this.checkPassword()) return this.checkPassword().toString();
 
     return '';
   }
 
-  // TODO проверить работу ColorPicker, не принимает белый цвет по умолчанию
   private checkRequired() {
     if (!this.rule || this.validValue) return '';
 
@@ -77,6 +78,14 @@ class Validation {
     if (!this.rule || emailRegExp.test(this.validValue)) return '';
 
     return this.rule.isEmail.message;
+  }
+
+  private checkPassword() {
+    const passRegExp = /([a-zа-я][A-ZА-Я])|([A-ZА-Я][a-zа-я])/
+
+    if (!this.rule || passRegExp.test(this.validValue)) return '';
+
+    return this.rule.isPassword.message;
   }
 }
 

@@ -1,78 +1,100 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import ILocationStateType from "../../../Interfaces/ILocationStateType";
-import { useAuth } from "../../../Methods/UseAuth";
+import { TextInput } from "../../TextInput";
+import { Loader } from "../../Loader";
 
-import Server from "../../../Server";
+import Server from "../../../Methods/Server";
 
-import c from "./loginpage.module.scss"
 import { RootState } from "../../../Store/reducer";
 import { GET_TOKEN } from "../../../Store/authActions";
+import { SAVE_LOGINPAGE_LOGIN, SAVE_LOGINPAGE_PASSWORD } from "../../../Store/formActions";
+
+import c from "./loginpage.module.scss"
 
 const LoginPage = () => {
-  const [error, setError] = useState<boolean>(false)
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState<string>("")
   const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state as ILocationStateType;
-  const auth = useAuth();
-
-  const store = useSelector((state: RootState) => state.auth)
+  const store = useSelector((state: RootState) => {return {auth: state.auth, form: state.form}})
   const dispatch = useDispatch();
 
-  const from = state?.from.pathname || "/";
+  useEffect(()=>{
+    Server.authorizeUser(store.auth.auth_token).then((resolve) => {
+      if (!resolve) {
+        setTimeout(()=> {
+          setIsPending(false);
+        }, 100)
+      }
+      else navigate('/');
+    })
+  }, [store.auth.auth_token])
+
+  const onChangeLogin = (value: string) => {
+    dispatch({
+      type: SAVE_LOGINPAGE_LOGIN,
+      payload: value,
+    }) 
+  }
+
+  const onChangePassword = (value: string) => {
+    dispatch({
+      type: SAVE_LOGINPAGE_PASSWORD,
+      payload: value,
+    }) 
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const username = formData.get("username") as string;
-    const password = formData.get("password") as string;
+    Server.authenticateUser(store.form.loginPage_login, store.form.loginPage_password).then((resolve) => {
+      if (!resolve) setError("Проверьте введённые данные")
 
-    Server.authenticateUser(username, password).then((resolve) => {
       dispatch({
         type: GET_TOKEN,
         payload: resolve,
-      })
-
-      Server.authorizeUser(store.auth_token).then((resolve) => {
-        if (!resolve) {
-          setError(true)
-          return
-        }
-
-
-        auth.signin(username, () => {
-          navigate(from, { replace: true });
-        })
       })
     })
   }
   
   return (
     <div className={c.login_page}>
-      <h3 className={c.caption}>Добро пожаловать!</h3>
-      <h4 className={c.descr}>Авторизуйтесь, чтобы продолжить</h4>
-      <div className={c.form}>
-        <form className={c.login_form} onSubmit={handleSubmit}>
-          <label className={c.label} >
-            <span className={c.labeltext}>Логин (E-mail)</span>
-            <input type="text" name="username" placeholder="E-mail"/>
-          </label>
-          <label className={c.label}>
-            <span className={c.labeltext}>Пароль</span>
-            <input type="password" name="password" placeholder="Password"/>
-          </label>
-          {error && <p className={c.error_caption}>Проверьте введёные данные</p>}
-          <button type="submit">Войти</button>
-          <p className={c.message}>Не зарегистрированы? 
-            <Link to="/register">
-              Создайте аккаунт
-            </Link>
-          </p>
-        </form>
-      </div>
+      <h3 className={c.caption}>LOGIN PAGE</h3>
+      {isPending && <Loader />}
+      {!isPending && 
+        <div className={c.form}>
+          <h4 className={c.descr}>Авторизуйтесь, чтобы продолжить</h4>
+
+          <form className={c.login_form} onSubmit={handleSubmit}>
+              <TextInput
+                label="Логин (E-mail)"
+                type="text"
+                placeholder="E-mail"
+                value={store.form.loginPage_login}
+                onChange={onChangeLogin}
+                validateRules={['required','eMail']}
+              />
+
+              <TextInput
+                label="Пароль"
+                type="password"
+                placeholder="Password"
+                value={store.form.loginPage_password}
+                onChange={onChangePassword}
+                validateRules={['password']}
+              />
+
+            {error && <p className={c.error_caption}>{error}</p>}
+            <button className={c.button} type="submit">Войти</button>
+            <p className={c.message}>Не зарегистрированы? 
+              <Link to="/register">
+                Создайте аккаунт
+              </Link>
+            </p>
+          </form>
+        </div>
+      }
     </div>
   );
 }

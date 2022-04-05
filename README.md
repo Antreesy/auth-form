@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Test Task with Create React App
 
 Проект собран при помощи Create React App
 
@@ -10,11 +10,11 @@
 
 ### `npm run serve`
 
-Запуск сервера с mock данными на [http://localhost:8000](http://localhost:8000)
+Запуск сервера с данными авторизации на [http://localhost:8000](http://localhost:8000)
 
 ### `npm run start`
 
 Запуск приложения на [http://localhost:3000](http://localhost:3000)
 
-Логин/пароль для входа: admin/admin123456 или user/user123, хранятся в JSON-файле на сервере
-Данные для таблицы: хранятся в JSON-файле на сервере, доступны для редактирования и просмотра только после авторизации
+Логин/пароль для входа: admin@mail.ru / Admin123 или user@google.com / User12345, хранятся в JSON-файле на сервере
+Данные для авторизации: хранятся в db.json

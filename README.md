@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Test Task with Create React App
 
 Проект собран при помощи Create React App
 

@@ -1,46 +1,45 @@
-# Test Task for CiPlay
+# Code Challenge - Auth form with validation
 
-Проект собран при помощи Create React App
-### Стэк технологий:
-- TypeScript
+### Technology stack:
+- Typescript
 - React
 - Redux
 - React Router
 
-## Задание:
-Разработать SPA-приложение с использованием React, Redux, Webpack, либо CRA.
-Создать несколько страниц: Login, Registration, Change password.
-Расширяемое меню для переключения между страницами с названием страницы.
+## Task:
+Develop a SPA application using React, Redux, Webpack, or CRA.
+Create multiple pages: Login, Registration, Change password.
+Expandable menu to switch between pages with page name.
 
-Регистрация:
-1) Email - должен валидироваться, что email указан правильно
-2) Password - валидация количества символов (от 4 до 10) и на наличие заглавной буквы.
-3) Repeat password - должен быть идентичным password.
+Registration:
+1) Email - must validate that the email is correct
+2) Password - validation of the number of characters (from 4 to 10) and for the presence of a capital letter.
+3) Repeat password - must be identical to password.
 
-Страница с авторизацией:
-1) Email - должен валидироваться, что email указан правильно
-2) Password - валидация количества символов (от 4 до 10) и на наличие заглавной буквы.
+Page with authorization:
+1) Email - must validate that the email is correct
+2) Password - validation of the number of characters (from 4 to 10) and for the presence of a capital letter.
 
-Изменить пароль:
+Change password:
 1) Old password
-2) New password - валидация количества символов (от 4 до 10) и на наличие заглавной буквы.
-3) Repeat password - должен быть идентичным password.
+2) New password - validation of the number of characters (from 4 to 10) and the presence of a capital letter.
+3) Repeat password - must be identical to password.
 
-Страница с изменением пароля доступна только авторизированным пользователям.
-Страницы регистрации и авторизации только неавторизированным.
-Сделать имитацию запроса серверу для каждой страницы и получить ответ от сервера об успешной регистрации/авторизации/смены пароля.
+The password change page is available only to authorized users.
+The registration and authorization pages are only unauthorized.
+Make an imitation of a request to the server for each page and receive a response from the server about successful registration / authorization / password change.
 
-Дополнения:
-Использование middleware для API
-Сохранение стейта инпутов при переключении между страницами.
-Система уведомлений: О внутренней ошибке, о наличии неверного пароля, об успешном логине, регистрации и пр.
+Additions:
+Using middleware for API
+Saving the state of inputs when switching between pages.
+Notification system: About an internal error, about the presence of an incorrect password, about successful login, registration, etc.
 
-## Запуск проекта
+## Launch of the project
 
 ### `npm run start`
 
-Запуск сервера с данными авторизации на [http://localhost:8000](http://localhost:8000)
-Запуск приложения на [http://localhost:3000](http://localhost:3000)
+Starting the server with authorization data on [http://localhost:8000](http://localhost:8000)
+Running the application on [http://localhost:3000](http://localhost:3000)
 
-Логин/пароль для входа: admin@mail.ru / Admin123 или user@google.com / User12345, хранятся в db.json
-Данные для авторизации: хранятся в db.json
+Login/password for login: admin@mail.ru / Admin123 or user@google.com / User12345, stored in db.json
+Authorization data: stored in db.json
